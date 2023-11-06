@@ -53,7 +53,7 @@ Adding an item should consider
 ```
 ex: purchase price + (purchase price * markup %)
 ```
-Typically, the markup price is set by the store as an overall, but in this project, we'll allow the "individual" adding it to inventory to decide how much of a mark up percentage will be added to it.
+Typically, the markup price is set by the store as an overall, but in this project, we'll allow the "individual" adding it to inventory decide how much of a mark up percentage will be added to it.
 
 **Selling Items**
 
