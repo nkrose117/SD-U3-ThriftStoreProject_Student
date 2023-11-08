@@ -94,7 +94,7 @@ addToInventory(obj, 0.5) // represents the product and a 50% markup.
 
 ---
 # Project Requirements
-1. Create 3 different Stores in 3 different states.
+1. Create 3 different Stores in 3 different states. 
 2. Create at least 3 items with the same upc.
    1. One store should be holding these three different items.
 3. Create at least 2 items with more than 1 as their quantity.

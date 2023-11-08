@@ -70,6 +70,7 @@ class Product {
 
 class Store {
     constructor(name, city, state) {
+        this.name = name;
         this.location = {city, state};
         this.state = state;
         this.salesTax = this.calcSalesTax(state);
@@ -86,7 +87,7 @@ static createStore(name, city, state) {
 };
 
 calcSalesTax(state) {
-    console.log(state);
+    // console.log(state);
     let stateTax = -1; 
     for (const item of salesTax) {
         if (item.state === state) {
@@ -137,31 +138,92 @@ sellItemFromInventory(upc, quantityToSell) {
 }
 };
 
-console.log('Create a product of upc 12 quantity 3');
-const firstProduct = new Product(12, 'soap', 'toiletry', 300, 3);
-console.log(firstProduct);
+// console.log('Create a product of upc 12 quantity 3');
+// const firstProduct = new Product(12, 'soap', 'toiletry', 300, 3);
+// console.log(firstProduct);
 
-console.log('Create a store called Store A');
+// console.log('Create a store called Store A');
 
-const thriftStoreA = Store.createStore('Store A', 'Burlington', 'Vermont');
-console.log(thriftStoreA);
+// const thriftStoreA = Store.createStore('Store A', 'Burlington', 'Vermont');
+// console.log(thriftStoreA);
 
-console.log(`Add to Store A's inventory for upc 12 quantity 3`);
+// console.log(`Add to Store A's inventory for upc 12 quantity 3`);
 
-let markUpPrice = .1;
-thriftStoreA.addItemToInventory(firstProduct, markUpPrice);
-console.log(thriftStoreA);
+// let markUpPrice = .1;
+// thriftStoreA.addItemToInventory(firstProduct, markUpPrice);
+// console.log(thriftStoreA);
 
-console.log(`Sell from Store A's inventory upc 12 quantity 1`);
+// console.log(`Sell from Store A's inventory upc 12 quantity 1`);
 
-thriftStoreA.sellItemFromInventory(12, 2);
-console.log(thriftStoreA);
+// thriftStoreA.sellItemFromInventory(12, 2);
+// console.log(thriftStoreA);
 
 // const firstStore = new Store('New Store', 'Burlington', 'Vermont' );
 // console.log(firstStore);
 
 // const findState = firstStore.calcSalesTax(1);
 // console.log(firstStore(1));
+
+
+// !1. Create 3 different Stores in 3 different states.
+
+const thriftStoreA = Store.createStore('Store A', 'Burlington', 'Vermont');
+// console.log(thriftStoreA);
+
+const thriftStoreB = Store.createStore('Store B', 'Boston', 'Massachusetts');
+// console.log(thriftStoreB);
+
+const thriftStoreC = Store.createStore('Store C', 'Anchorage', 'Alaska');
+// console.log(thriftStoreC);
+
+// ! 2. Create at least 3 items with the same upc.
+
+const guitarProduct = new Product(12, 'Guitar', 'Instruments', 10, 3);
+// console.log(guitarProduct);
+
+// ! 1. One store should be holding these three different items.
+
+thriftStoreA.addItemToInventory(guitarProduct, .1);
+// console.log(thriftStoreA);
+
+// ! 3. Create at least 2 items with more than 1 as their quantity.
+
+const shirtProduct = new Product(7, 'T-Shirt', 'Clothing', 4, 3);
+
+const microWaveProduct = new Product(3, 'Microwave', 'Appliance', 3, 5);
+
+const chairProduct = new Product(2, 'Chair', 'Furniture', 3, 7);
+
+const artProduct = new Product(11, 'Painting', 'Artwork', 2, 2);
+
+
+// 4. Stock each store with at least 3 items each.
+thriftStoreA.addItemToInventory(artProduct, .1);
+thriftStoreA.addItemToInventory(chairProduct, .1);
+thriftStoreA.addItemToInventory(shirtProduct, .1);
+// console.log(thriftStoreA);
+
+thriftStoreB.addItemToInventory(guitarProduct, .2);
+thriftStoreB.addItemToInventory(microWaveProduct, .2);
+thriftStoreB.addItemToInventory(artProduct, .2);
+// console.log(thriftStoreB);
+
+
+thriftStoreC.addItemToInventory();
+thriftStoreC.addItemToInventory();
+thriftStoreC.addItemToInventory();
+
+// 5. Sell at least 1 item from each store.
+//    1. Show that you have tested:
+//       1. Trying to sell an item that doesn't have enough in stock.
+//       2. Trying to sell an item that is less than the quantity desired.
+// 6. Within the **Testing** area of the file (bottom of the document), `console.log` each store.
+
+
+
+
+
+
 
 
 
@@ -172,21 +234,3 @@ console.log(thriftStoreA);
 
 
 
-
-// Each store will need:  
-// - A **name**
-// - A location
-//   - **City**
-//   - **State**
-// - A **sales tax** value
-//   - *Please see note below*
-// - An **inventory**
-//   - Will start empty
-// - A **balance**
-//   - This will detail the current funds the store has. (*Don't overthink this. Start with 100 or 200*).
-// - **Expenses**
-//   - This should start as zero for all stores.
-// - **Profit**
-//   - This should start as zero for all stores
-// - **Paid Tax**
-//   - Will need to evaluate the sales tax and update this key.
