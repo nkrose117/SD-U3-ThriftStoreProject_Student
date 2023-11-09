@@ -55,34 +55,7 @@ const salesTax = [
 
 //! Classes
 
-
-//! CREATE STORES
-// Generate 3 different stores, each in a different state.
-
-//! Inventory
-
-
-//! Stocking
-
-//* First Store
-
-//* Second Store
-
-//* Third Store
-
-//! Selling
-
-//* First Store
-
-//* Second Store
-
-//* Third Store
-
-//! Testing
-/* 
-    Simply console log each store to check the completed details.
-*/
-
+// This is where I created my Product class.
 class Product {
     constructor(upc, name, type, purchasePrice, quantity, marketPrice) {
       this.upc = upc;
@@ -94,8 +67,7 @@ class Product {
     }
   }
   
-  
-  
+// This is where I created my Store class.
   class Store {
       constructor(name, city, state) {
           this.name = name;
@@ -109,13 +81,13 @@ class Product {
           this.paidTax = 0;
       }
       
-  
+//   Factory Method to create new stores.
   static createStore(name, city, state) {
       return new Store(name, city, state);
   };
-  
+
+//   Method to calculate sales tax based on state.
   calcSalesTax(state) {
-      // console.log(state);
       let stateTax = -1; 
       for (const item of salesTax) {
           if (item.state === state) {
@@ -130,6 +102,7 @@ class Product {
       }
   }
   
+//   Method to add items to the stores' inventories.
   addItemToInventory(newProduct, markUpPrice) { 
       let existingItem = this.inventory.find (item => item.upc === newProduct.upc);
       if(existingItem) {
@@ -144,77 +117,58 @@ class Product {
               return
           }
           newProduct.marketPrice = newProduct.purchasePrice * (1 + markUpPrice);
+          newProduct.marketPrice = newProduct.marketPrice.toFixed(2);
           this.inventory.push(newProduct);
       }
       this.balance = this.balance - (newProduct.quantity * newProduct.purchasePrice);
       this.expenses = this.expenses + (newProduct.quantity * newProduct.purchasePrice);
   } 
-  
+ 
+//  Method to sell items from the stores' inventories.
   sellItemFromInventory(upc, quantityToSell) {
       let itemToSell = this.inventory.find (item => item.upc === upc);
+      if(itemToSell === undefined) {
+          console.log(`Item doesn't exist in inventory`);
+          return
+      }
       if(itemToSell && itemToSell.quantity >= quantityToSell) {
           itemToSell.quantity -= quantityToSell;
           this.profit = quantityToSell * (itemToSell.marketPrice - itemToSell.purchasePrice);
+          this.profit = this.profit.toFixed(2);
           this.balance = this.balance + this.profit;
           this.paidTax = this.paidTax + (itemToSell.marketPrice * this.salesTax);
           
           } else {
           if (! itemToSell || itemToSell.quantity < quantityToSell); {
-              console.log('Out of stock.');
-          }
+              console.log('Not Enough Product in Stock');
+          } 
       }
-  }
-  };
-  
-  // console.log('Create a product of upc 12 quantity 3');
-  // const firstProduct = new Product(12, 'soap', 'toiletry', 300, 3);
-  // console.log(firstProduct);
-  
-  // console.log('Create a store called Store A');
-  
-  // const thriftStoreA = Store.createStore('Store A', 'Burlington', 'Vermont');
-  // console.log(thriftStoreA);
-  
-  // console.log(`Add to Store A's inventory for upc 12 quantity 3`);
-  
-  // let markUpPrice = .1;
-  // thriftStoreA.addItemToInventory(firstProduct, markUpPrice);
-  // console.log(thriftStoreA);
-  
-  // console.log(`Sell from Store A's inventory upc 12 quantity 1`);
-  
-  // thriftStoreA.sellItemFromInventory(12, 2);
-  // console.log(thriftStoreA);
-  
-  // const firstStore = new Store('New Store', 'Burlington', 'Vermont' );
-  // console.log(firstStore);
-  
-  // const findState = firstStore.calcSalesTax(1);
-  // console.log(firstStore(1));
-  
-  
-  // !1. Create 3 different Stores in 3 different states.
-  
-  const thriftStoreA = Store.createStore('Store A', 'Burlington', 'Vermont');
-  // console.log(thriftStoreA);
-  
-  const thriftStoreB = Store.createStore('Store B', 'Boston', 'Massachusetts');
-  // console.log(thriftStoreB);
-  
-  const thriftStoreC = Store.createStore('Store C', 'Anchorage', 'Alaska');
-  // console.log(thriftStoreC);
-  
-  // ! 2. Create at least 3 items with the same upc.
+  }};
+
+
+//! CREATE STORES
+const thriftStoreA = Store.createStore('Store A', 'Burlington', 'Vermont');
+// console.log(thriftStoreA);
+
+const thriftStoreB = Store.createStore('Store B', 'Boston', 'Massachusetts');
+// console.log(thriftStoreB);
+
+const thriftStoreC = Store.createStore('Store C', 'Anchorage', 'Alaska');
+// console.log(thriftStoreC);
+
+
+//! Inventory
+
+  //! Create at least 3 items with the same upc.
   
   const guitarProduct = new Product(12, 'Guitar', 'Instruments', 10, 3);
-  // console.log(guitarProduct);
-  
-  // ! 1. One store should be holding these three different items.
+
+  //! One store should be holding these three different items.
   
   thriftStoreA.addItemToInventory(guitarProduct, .1);
-  // console.log(thriftStoreA);
-  
-  // ! 3. Create at least 2 items with more than 1 as their quantity.
+  //   console.log(thriftStoreA); 
+ 
+   // ! 3. Create at least 2 items with more than 1 as their quantity.
   
   const shirtProduct = new Product(7, 'T-Shirt', 'Clothing', 4, 3);
   
@@ -223,26 +177,55 @@ class Product {
   const chairProduct = new Product(2, 'Chair', 'Furniture', 3, 7);
   
   const artProduct = new Product(11, 'Painting', 'Artwork', 2, 2);
+
+
+//! Stocking
+
+ // ! 4. Stock each store with at least 3 items each.
+ thriftStoreA.addItemToInventory(artProduct, .1);
+ thriftStoreA.addItemToInventory(chairProduct, .1);
+ thriftStoreA.addItemToInventory(shirtProduct, .1);
+ // console.log(thriftStoreA);
+
+ 
+ thriftStoreB.addItemToInventory(guitarProduct, .2);
+ thriftStoreB.addItemToInventory(microWaveProduct, .2);
+ thriftStoreB.addItemToInventory(artProduct, .2);
+ // console.log(thriftStoreB);
+ 
+ 
+ thriftStoreC.addItemToInventory(shirtProduct, .1);
+ thriftStoreC.addItemToInventory(artProduct, .1);
+ thriftStoreC.addItemToInventory(microWaveProduct, .1);
+ // console.log(thriftStoreC);
+
+
+//! Selling
+
+// ! 5. Sell at least 1 item from each store.
   
+  //! A
+  thriftStoreA.sellItemFromInventory(12, 5);//! Trying to sell an item that is less than the quantity desired.
+  // console.log(thriftStoreA);         // "Not Enough Product in Stock"
   
-  // 4. Stock each store with at least 3 items each.
-  thriftStoreA.addItemToInventory(artProduct, .1);
-  thriftStoreA.addItemToInventory(chairProduct, .1);
-  thriftStoreA.addItemToInventory(shirtProduct, .1);
-  // console.log(thriftStoreA);
+  thriftStoreA.sellItemFromInventory(7, 1); // sell one shirt
+  // console.log(thriftStoreA); 
   
-  thriftStoreB.addItemToInventory(guitarProduct, .2);
-  thriftStoreB.addItemToInventory(microWaveProduct, .2);
-  thriftStoreB.addItemToInventory(artProduct, .2);
-  // console.log(thriftStoreB);
+  //! B
+  thriftStoreB.sellItemFromInventory(11, 2); // sell two paintings
   
+  thriftStoreB.sellItemFromInventory(15, 3); //! Trying to sell an item that isn't in the inventory.
+  // console.log(thriftStoreB);         // "Item doesn't exist in inventory".
   
-  thriftStoreC.addItemToInventory();
-  thriftStoreC.addItemToInventory();
-  thriftStoreC.addItemToInventory();
+  //! C
   
-  // 5. Sell at least 1 item from each store.
-  //    1. Show that you have tested:
-  //       1. Trying to sell an item that doesn't have enough in stock.
-  //       2. Trying to sell an item that is less than the quantity desired.
-  // 6. Within the **Testing** area of the file (bottom of the document), `console.log` each store.
+  thriftStoreC.sellItemFromInventory(3, 2); // sell two shirts
+  
+  thriftStoreC.sellItemFromInventory(7, 3); //sell three microwaves
+  // console.log(thriftStoreC);
+
+//! Testing
+
+  console.log(thriftStoreA);
+  console.log(thriftStoreB);
+  console.log(thriftStoreC);
